@@ -1,0 +1,44 @@
+SQL030
+
+create function [dbo].fn_generate_binary_frominteger(@integer bigint)
+returns bigint
+as
+begin
+ 
+	declare @binary varchar(max)=''
+ 
+	while @integer > 0 
+	begin 
+		set @binary = @binary + cast((@integer % 2) as varchar(max))
+		set @integer = @integer / 2 
+	end
+ 
+	return reverse(@binary)
+ 
+end
+go
+
+create function [dbo].fn_generate_integer_frombinary(@binary varchar(255))
+returns bigint
+as
+begin
+
+	if @binary like '%[2-9]%' or @binary < 0
+		return -1
+ 
+	declare @cnt int = 1
+	declare @length int = len(@binary)
+	declare @integer int = cast(substring(@binary, @length, 1) as int)
+ 
+	while(@cnt < @length) 
+	begin
+		set @integer = @integer + power(cast(substring(@binary, @length - @cnt, 1) * 2 as int), @cnt) 
+		set @cnt = @cnt + 1
+	end
+ 
+	return @integer	
+ 
+end 
+
+select dbo.fn_generate_binary_frominteger(310)
+select dbo.fn_generate_integer_frombinary(100110110)

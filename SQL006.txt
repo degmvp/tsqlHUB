@@ -1,0 +1,31 @@
+SQL006
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+CREATE TABLE [dbo].[Bits](
+    [idbin] [tinyint] IDENTITY(1,1) NOT NULL,
+	[bin_val] [binary](4) NOT NULL,
+	[val_pos] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idbin] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, 
+ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+Criacao de Meta-Tabela para Multi-Processamento
+objetivos:
+1 -operacoes binarias .............(sistema binario)
+2 -operacoes decimais .............(sistema decimal)
+3 -operacoes vetorias .............(array numerico de 32 digitos)
+4 -operacoes SL-SR offset..........(shift left - shift rigth)   
+5 -operacoes Hexa-decimais.........(sistema hexa-decimal)
+6 -operacoes do complemento de 2...(and-or-xor-not)
+7 -operacoes exponenciacao base2...((2^0) ate (2^31))
+8 -operacoes pesquisa linear.......(vetor..elementos de 0-31)
+9 -operacoes conversoes de sistemas(binario/hexa/decimal)
+10-operacoes decomposicao/inteiro..(bit a bit na word de 4 bytes)
+
+ Operacoes Bitwise  (& and)   ( | or )  (^ xor)
+Aritmetica Binaria   Simplificacao Hexa-decimal 

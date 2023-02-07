@@ -1,0 +1,31 @@
+SQL010
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+O MAIOR INTEIRO QUE PODE SER CONVERTIDO PRA BINARIO
+2^^64 = 18.446.744.073.709.551.616
+MAPEAMENTO DE BITMASK 
+
+CREATE TABLE Member
+(
+      id            INT
+    , name          VARCHAR(20)
+    , contact_preferences    INT);
+
+INSERT INTO Member
+VALUES (1,'Bob', 255),(2,'John', 84),(3,'Cathy', 73),(4,'Steve', 170);
+
+CREATE TABLE opportunitiesLookup
+(      bitwise int
+    , value   varchar(30));
+
+INSERT INTO opportunitiesLookup
+VALUES (1, 'Administrador DBA')
+	,(2, 'Query tables')
+	,(4, 'Insert tables')
+	,(8, 'Delete Procedures')
+	,(16, 'Update Table')
+	,(32, 'Create Views')
+	,(64, 'Alter Procedure')
+	,(128, 'Create Table');

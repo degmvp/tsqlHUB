@@ -1,0 +1,34 @@
+
+SQL014
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+LISTA TODAS AS OCORRENCIAS DO MAPEAMENTO BINARIO
+SELECT name
+	         [Administrador DBA]
+            ,[Query tables]
+			,[Insert tables]
+			,[Delete Procedures]
+			,[Update Table]
+			,[Create Views]
+			,[Alter procedure]
+			,[create table]
+FROM
+	(Select m.name, o.value, 1 as num
+	From Member m
+	Cross Join opportunitiesLookup o
+	Where m.contact_preferences & o.bitwise <> 0) AS D
+PIVOT(count(num) for value in ([Administrador DBA]
+			,[Query tables]
+			,[Insert tables]
+			,[Delete Procedures]
+			,[Update Table]
+			,[Create Views]
+			,[Alter procedure]
+			,[create table])) AS P;
+DBA Query tables Insert tables Delete Procedures Update Table Create Views Alter procedure create table
+Bob	1	1	1	1	1	1	1
+Cathy	0	0	1	0	0	1	0
+John	0	1	0	1	0	1	0
+Steve	1	0	1	0	1	0	1

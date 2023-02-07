@@ -1,0 +1,32 @@
+
+SQL021
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+PESQUISAR VALORES NAS COLUNAS (B) (C)DEPENDENDO DO VALOR DE (A) 
+
+create  table delta(nome char(10) not null,
+                  A tinyint not null,
+                  B tinyint not null,
+                  C tinyint not null)
+insert into delta values('DEG',1,22,33)
+insert into delta values('LAW',2,55,44)
+insert into delta values('DAV',3,66,77)
+insert into delta values('DGW',3,88,11)
+
+SELECT nome,X = b * (1-abs(sign(a - 1))) + c * (abs(sign(a - 1)))
+from delta
+
+SELECT nome,X = b * (1-abs(sign(a - 2))) 
+              + c * (abs(sign(a - 2)))
+from delta
+
+SELECT nome,X = b * (1-abs(sign(a - 3))) 
+              + c * (abs(sign(a - 3)))
+from delta
+
+SELECT nome,X = b * (1-abs(sign(a - 1))) 
+from delta
+SELECT nome,X = c * (abs(sign(a - 1)))
+from delta

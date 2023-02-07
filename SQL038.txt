@@ -1,0 +1,192 @@
+SQL038
+
+/****** Script for SelectTopNRows command from SSMS  ******/
+CREATE TABLE bitwise
+(
+ a_int_value int NOT NULL,
+ b_int_value int NOT NULL
+)
+INSERT bitwise VALUES (170, 75)
+SELECT a_int_value & b_int_value -->10
+FROM bitwise
+SELECT a_int_value | b_int_value --235
+FROM bitwise
+
+
+declare @a int,@b int
+set @a = 7
+set @b = 7
+select 1 -abs(sign(@a - @b))
+
+
+declare @a int,@b int
+set @a = 7
+set @b = 5
+select  abs(sign(@a - @b)) 
+-----------------------------------------
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[call_tot]')
+and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[call_tot]
+------------------
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[calls]') 
+and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[calls]
+------------------
+CREATE TABLE [dbo].[call_tot] (
+	[name] [char] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[call_type] [char] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[total_cost] [decimal](8, 2) NULL 
+) ON [PRIMARY]
+------------------
+CREATE TABLE [dbo].[calls] (
+	[nome] [char] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[fro_area] [tinyint] NULL ,
+	[to_area] [tinyint] NULL ,
+	[cost] [decimal](8, 2) NULL 
+) ON [PRIMARY]
+insert into calls values('Deg',16,16,10.35)
+insert into calls values('Deg',16,16,15.35)
+insert into calls values('Deg',16,12,2.35)
+insert into calls values('Deg',16,12,5.35)
+insert into calls values('Law',16,16,1.35)
+insert into calls values('Law',16,16,5.35)
+
+
+--Solução trivial gera tabela call_tot 
+--acumula e insere os totais para local
+------------------------------------------------------
+insert into call_tot
+select nome,call_type = 'local',total_cost = sum(cost)
+from calls
+where (fro_area = to_area)
+group by nome
+------------------------------------------------------
+--Solução trivial gera tabela call_tot 
+--acumula e insere os totais para DDD-Inter
+------------------------------------------------------
+insert into call_tot
+select nome,call_type = 'DDD-Inter',total_cost = sum(cost)
+from calls
+where (fro_area != to_area)
+group by nome
+------------------------------------------------------
+--Relatorio lista a tabela call_tot 
+------------------------------------------------------
+select * from call_tot order by name
+-------------------------------------------------------
+SET ANSI_WARNINGS off
+SET ARITHIGNORE ON
+SET ARITHABORT off
+
+select nome,
+       call_type = substring('localDDD-Inter',
+                   isnull(1 / (1 - abs(sign(fro_area - to_area))),6),
+                   isnull(5 / (1 - abs(sign(fro_area - to_area))),9)),
+       total_cost = sum(cost)
+from calls
+group by nome,substring('localDDD-Inter',  
+                   isnull(1 / (1 - abs(sign(fro_area - to_area))),6),
+                   isnull(5 / (1 - abs(sign(fro_area - to_area))),9))
+---------------------------------------------------------------------
+CREATE TABLE [dbo].[tbval](
+	[nome] [char](10) NULL,
+	[valor] [decimal](8, 2) NULL,
+	[mes] [tinyint] NULL
+) ON [PRIMARY]
+ 
+--Carga de Teste na tabela tbval
+
+declare @x1 tinyint
+declare @sal smallint
+select @sal = 4001
+select @x1 = 1
+while @x1 < 13
+begin
+insert into tbval values
+('Law',@sal,@x1)
+select @x1 = @x1 + 1
+select @sal = @sal + 1
+End
+
+declare @x1 tinyint
+declare @sal smallint
+select @sal = 4001
+select @x1 = 1
+while @x1 < 13
+begin
+insert into tbval values
+('Deg',@sal,@x1)
+select @x1 = @x1 + 1
+select @sal = @sal + 1
+end
+select * from tbval
+select sign( 3)
+select sign(-3)
+select sign(0)
+ 
+select abs(sign(3)) 
+select abs(sign(-3)) 
+select abs(sign(0))
+
+
+select nome,(1 - abs(sign(mes - 3))) as [mes_03_verdadeiro]
+from tbval
+select nome,sum(valor * (1 - abs(sign(mes - 3))))as [finalizando_mes_3] 
+ from tbval group by nome
+select nome,
+       sum(valor * (1 - abs(sign(mes - 1)))),
+       sum(valor * (1 - abs(sign(mes - 2)))), 
+       sum(valor * (1 - abs(sign(mes - 3)))), 
+       sum(valor * (1 - abs(sign(mes - 4)))),
+       sum(valor * (1 - abs(sign(mes - 5)))),
+       sum(valor * (1 - abs(sign(mes - 6)))),
+       sum(valor * (1 - abs(sign(mes - 7)))),
+       sum(valor * (1 - abs(sign(mes - 8)))),
+       sum(valor * (1 - abs(sign(mes - 9)))),
+       sum(valor * (1 - abs(sign(mes - 10)))),
+       sum(valor * (1 - abs(sign(mes - 11)))),
+       sum(valor * (1 - abs(sign(mes - 12))))
+from tbval group by nome
+
+
+create  table delta(nome char(10) not null,
+                  A tinyint not null,
+                  B tinyint not null,
+                  C tinyint not null)
+
+insert into delta values('DEG',1,22,33)
+insert into delta values('LAW',2,55,44)
+insert into delta values('DAV',3,66,77)
+insert into delta values('DGW',3,88,11)
+
+select * from delta
+
+nome       A    B    C
+---------- ---- ---- ----
+DEG        1    22   33
+LAW        2    55   44
+DAV        3    66   77
+DGW        3    88   11
+
+SELECT nome,X = b * (1-abs(sign(a - 1))) + c * (abs(sign(a - 1)))
+from delta
+nome       X
+---------- -----------
+DEG        22
+LAW        44
+DAV        77
+DGW        11
+------
+SELECT nome,X = b * (1-abs(sign(a - 2))) 
+              + c * (abs(sign(a - 2)))
+from delta
+nome       X
+---------- -----------
+DEG        33
+LAW        55
+DAV        77
+DGW        11
+-----
+SELECT nome,X = b * (1-abs(sign(a - 3))) 
+              + c * (abs(sign(a - 3)))
+from delta

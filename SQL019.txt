@@ -1,0 +1,34 @@
+
+SQL019
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+CREATE TABLE [dbo].[tbval](
+	[nome] [char](10) NULL,
+	[valor] [decimal](8, 2) NULL,
+	[mes] [tinyint] NULL
+) ON [PRIMARY]
+Carga de Teste na tabela tbval
+declare @x1 tinyint
+declare @sal smallint
+select @sal = 8001
+select @x1 = 1
+while @x1 < 13
+begin
+insert into tbval values
+('Law',@sal,@x1)
+select @x1 = @x1 + 1
+select @sal = @sal + 1
+End
+declare @x1 tinyint
+declare @sal smallint
+select @sal = 6001
+select @x1 = 1
+while @x1 < 13
+begin
+insert into tbval values
+('Deg',@sal,@x1)
+select @x1 = @x1 + 1
+select @sal = @sal + 1
+end

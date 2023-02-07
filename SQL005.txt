@@ -1,0 +1,31 @@
+SQL005
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BOOLEAN EXPRESSION
+
+PIVOT TABLE  EXAMS - CALCULATE  AVG_1_2  AVG_2_3 AVG_3_4 + AVG
+
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4,
+
+(sum(score*(1-abs(sign(exam-1)))) +
+sum(score*(1-abs(sign(exam-2)))))/2  as AVG1_2,
+
+(sum(score*(1-abs(sign(exam-2)))) +
+sum(score*(1-abs(sign(exam-3)))))/2 as AVG2_3,
+
+(sum(score*(1-abs(sign(exam-3)))) +
+sum(score*(1-abs(sign(exam-4)))))/2 as AVG3_4,
+
+(sum(score*(1-abs(sign(exam-1)))) +
+sum(score*(1-abs(sign(exam-2)))) +
+sum(score*(1-abs(sign(exam-3)))) +
+sum(score*(1-abs(sign(exam-4)))))/4 as AVG
+from exams group by name;
+
+name	exam1	exam2	exam3	exam4	AVG1_2	AVG2_3	AVG3_4	AVG
+Deg	75	77	78	80	76	77	79	77
+Mary	90	97	98	99	93	97	98	96

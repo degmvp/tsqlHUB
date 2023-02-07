@@ -1,0 +1,33 @@
+SQL012
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+	with assoc as
+(
+	Select m.name, o.value
+	From Member m
+	Cross Join opportunitiesLookup o
+	Where m.contact_preferences & o.bitwise <> 0
+)
+select name from assoc where value = 'CREATE TABLE'
+name
+Bob
+Steve
+******************************************
+	with assoc as
+(
+	Select m.name, o.value
+	From Member m
+	Cross Join opportunitiesLookup o
+	Where m.contact_preferences & o.bitwise <> 0
+)
+select name from assoc where value = 'alter procedure''
+name
+Bob
+John
+Cathy
+
+
+
+
+

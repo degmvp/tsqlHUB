@@ -1,0 +1,31 @@
+SQL011
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+Select m.name, o.value
+From Member m
+Cross Join opportunitiesLookup o
+Where m.contact_preferences & o.bitwise <> 0
+Order By m.name
+    , o.value
+name	value
+Bob	Administrador DBA
+Bob	Alter Procedure
+Bob	Create Table
+Bob	Create Views
+Bob	Delete Procedures
+Bob	Insert tables
+Bob	Query tables
+Bob	Update Table
+Cathy	Administrador DBA
+Cathy	Alter Procedure
+Cathy	Delete Procedures
+John	Alter Procedure
+John	Insert tables
+John	Update Table
+Steve	Create Table
+Steve	Create Views
+Steve	Delete Procedures
+Steve	Query tables
+

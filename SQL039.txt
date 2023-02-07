@@ -1,0 +1,112 @@
+SQL039
+
+USE [dbclass]
+GO
+/****** Object: Table [dbo].[uxt_class] Script Date: 03/08/2012 06:48:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+100011 1 A
+100011 2 B
+100011 3 C
+100011 4 D
+100012 1 E
+100012 2 B
+100012 3 F
+100012 4 D
+CREATE TABLE [dbo].[uxt_class02](
+[obj_pk] [int] NOT NULL,
+[obj_code] [tinyint] NOT NULL,
+[obj_value] [char](1) NOT NULL)
+GO
+declare @x int
+set @x = 0
+while @x < 1000
+begin
+insert into dbo.uxt_class02 values(100011,1,'A')
+insert into dbo.uxt_class02 values(100011,2,'B')
+insert into dbo.uxt_class02 values(100011,3,'C')
+insert into dbo.uxt_class02 values(100011,4,'D')
+insert into dbo.uxt_class02 values(100012,1,'E')
+insert into dbo.uxt_class02 values(100012,2,'B')
+insert into dbo.uxt_class02 values(100012,3,'F')
+insert into dbo.uxt_class02 values(100012,4,'D')
+set @x = @x + 1;
+end;
+SELECT * FROM DBO.[uxt_class02]
+SELECT obj_pk,
+C_1=MAX(substring(obj_value, 1, datalength(obj_value) * (1 -
+abs(sign(obj_Code - 1))))),
+C_2=MAX(substring(obj_value, 1, datalength(obj_value) * (1 -
+abs(sign(obj_Code - 2))))),
+C_3=MAX(substring(obj_value, 1, datalength(obj_value) * (1 -
+abs(sign(obj_Code - 3))))),
+C_4=MAX(substring(obj_value, 1, datalength(obj_value) * (1 -
+abs(sign(obj_Code - 4)))))
+FROM uxt_class02
+GROUP BY obj_pk
+order by obj_pk
+--------------------------------------------------------
+SELECT obj_pk,
+sum(obj_code * (1 - abs(sign(obj_Code - 1)))) as obj_Code1,
+sum(obj_code * (1 - abs(sign(obj_Code - 2)))) as obj_Code2,
+sum(obj_code * (1 - abs(sign(obj_Code - 3)))) as obj_Code3,
+sum(obj_code * (1 - abs(sign(obj_Code - 4)))) as obj_Code4,
+count(*) as total_rows
+FROM uxt_class02
+GROUP BY obj_pk
+--------------------------------------------------------------------
+SELECT obj_pk,
+sum(obj_code * (1 - abs(sign(obj_Code - 1)))) as obj_Code1,
+sum(obj_code * (1 - abs(sign(obj_Code - 2)))) as obj_Code2,
+sum(obj_code * (1 - abs(sign(obj_Code - 3)))) as obj_Code3,
+sum(obj_code * (1 - abs(sign(obj_Code - 4)))) as obj_Code4,
+count(*) as total_rows_by_pk,
+sum(obj_code) as Somatorio_by_obj_code1234
+FROM uxt_class02
+GROUP BY obj_pk
+order by obj_pk
+compute sum(count(*))
+------------------------------------------------------------------
+SELECT obj_pk,
+sum(obj_code * (1 - abs(sign(obj_Code - 1)))) as obj_Code1,
+sum(obj_code * (1 - abs(sign(obj_Code - 2)))) as obj_Code2,
+sum(obj_code * (1 - abs(sign(obj_Code - 3)))) as obj_Code3,
+Page 1
+ux_class02
+sum(obj_code * (1 - abs(sign(obj_Code - 4)))) as obj_Code4,
+count(*) as total_rows_by_pk,
+sum(obj_code) as Somatorio_by_obj_code1234
+FROM uxt_class02
+GROUP BY obj_pk
+order by obj_pk
+compute sum( sum(obj_code * (1 - abs(sign(obj_Code - 1)))))
+compute sum( sum(obj_code * (1 - abs(sign(obj_Code - 2)))))
+compute sum( sum(obj_code * (1 - abs(sign(obj_Code - 3)))))
+compute sum( sum(obj_code * (1 - abs(sign(obj_Code - 4)))))
+compute sum(count(*))
+compute sum(sum(obj_code))
+--------------------------------------------------------------------
+SELECT obj_pk,
+C_1=MAX(substring(obj_value, 1, datalength(obj_value) * (1 -
+abs(sign(obj_Code - 1)))))
+FROM uxt_class02
+GROUP BY obj_pk
+order by obj_pk
+----------------------------------------------------------------
+SELECT obj_pk,
+C_1=MAX(substring(obj_value, 1, datalength(obj_value) * (CASE
+obj_Code WHEN 1 THEN 1 ELSE 0 END))),
+C_2=MAX(substring(obj_value, 1, datalength(obj_value) * (CASE
+obj_Code WHEN 2 THEN 2 ELSE 0 END))),
+C_3=MAX(substring(obj_value, 1, datalength(obj_value) * (CASE
+obj_Code WHEN 3 THEN 3 ELSE 0 END))),
+C_4=MAX(substring(obj_value, 1, datalength(obj_value) * (CASE
+obj_Code WHEN 4 THEN 4 ELSE 0 END)))
+FROM uxt_class02
+GROUP BY obj_pk
+order by obj_pk
+--------------------------------------------------------------------

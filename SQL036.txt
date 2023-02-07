@@ -1,0 +1,29 @@
+SQL036
+
+Bitwise Operator
+---------------------------------
+~ Bitwise unary NOT
+& Bitwise AND
+| Bitwise OR
+^ Bitwise XOR
+>> Shift Right
+<< Shift left
+& = Bitwise AND Assignment
+|=  Bitwise OR  Assignment
+^=  Bitwise XOR Assignment
+>>= Shift Right Assignment
+<<= Shift Left  Assignment
+----------------------------------
+----------------------------------
+The Left Shift
+ byte a=8, b=24;
+int c;
+c=a<<2; 00001000 << 2 = 00100000=32
+-----------------------------------
+-----------------------------------
+The Right Shift
+ byte a=8, b=24;
+int c ;
+c=a>>2; 00001000 >> 2= 00000010=2
+-----------------------------------
+-----------------------------------

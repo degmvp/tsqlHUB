@@ -1,0 +1,30 @@
+SQL004
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BOOLEAN EXPRESSION
+
+
+PIVOT TABLE  EXAMS - CALCULATE delta_1_2  delta_2_3 delta_3_4 + Total_Inc_Points + AVG
+
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4,
+  sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1)))) as delta_1_2,
+  sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2)))) as delta_2_3,
+  sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3)))) as delta_3_4,
+  
+  sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1))))  +
+  sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2))))  +
+  sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3))))  as TotalIncPoints,
+
+(sum(score*(1-abs(sign(exam-1)))) +
+sum(score*(1-abs(sign(exam-2)))) +
+sum(score*(1-abs(sign(exam-3)))) +
+sum(score*(1-abs(sign(exam-4)))))/4 as AVG
+from exams group by name;
+
+name	exam1	exam2	exam3	exam4	delta_1_2	delta_2_3	delta_3_4	TotalIncPoints     AVG
+Deg	75	77	78	80	2	1	2	5	             77
+Mary	90	97	98	99	7	1	1	9	             96

@@ -1,0 +1,34 @@
+
+SQL018
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+CREATE TABLE [dbo].[calls] (
+	[nome] [char] (10)   NULL ,
+	[fro_area] [tinyint] NULL ,
+	[to_area] [tinyint] NULL ,
+	[cost] [decimal](8, 2) NULL 
+) ON [PRIMARY]
+insert into calls values('Deg',83,83,10.35)          
+insert into calls values('Deg',83,83,15.35)         
+insert into calls values('Deg',83,21,2.35)           
+insert into calls values('Deg',83,21,5.35)         
+insert into calls values('Law',83,83,1.35)           
+insert into calls values('Law',83,83,5.35)
+select nome,
+       call_type = substring('localDDD-Inter',
+                   isnull(1 / (1 - abs(sign(fro_area - to_area))),6),
+                   isnull(5 / (1 - abs(sign(fro_area - to_area))),9)),
+       total_cost = sum(cost) from calls
+group by nome,substring('localDDD-Inter',  
+                   isnull(1 / (1 - abs(sign(fro_area - to_area))),6),
+                   isnull(5 / (1 - abs(sign(fro_area - to_area))),9))
+nome	call_type	 total_cost
+Deg       	DDD-Inter        7.70
+Deg       	local	      25.70
+Law       	local	        6.70
+>>SET ANSI_WARNINGS off
+>>SET ARITHIGNORE ON
+>>SET ARITHABORT off
+>> fro_area 83 to_area 83  ligacao Local
+>> fro_area 83 to_area 21  ligacao DDD-Inter

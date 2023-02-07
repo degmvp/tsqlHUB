@@ -1,0 +1,165 @@
+SQL037
+
+select abs(1)
+select abs(-1)
+select abs(0)
+set nocount on
+select sign(12)
+select sign(-12)
+select sign(0)
+----------------------------
+CREATE TABLE exams (
+        pkey int identity(1,1) NOT NULL ,
+        name varchar(15),
+        exam int,
+        score int,
+        PRIMARY KEY  (pkey)
+      );
+
+      insert into exams (name,exam,score) values ('Bob',1,75);
+      insert into exams (name,exam,score) values ('Bob',2,77);
+      insert into exams (name,exam,score) values ('Bob',3,78);
+      insert into exams (name,exam,score) values ('Bob',4,80);
+
+      insert into exams (name,exam,score) values ('Sue',1,90);
+      insert into exams (name,exam,score) values ('Sue',2,97);
+      insert into exams (name,exam,score) values ('Sue',3,98);
+      insert into exams (name,exam,score) values ('Sue',4,99);
+
+	  select * from exams;
+
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4
+from exams group by name;
+---------------------------------------------------------------
+name            exam1       exam2       exam3       exam4
+--------------- ----------- ----------- ----------- -----------
+Bob             75          77          78          80
+Sue             90          97          98          99
+---------------------------------------------------------------
+select name, score, exam, exam-1, sign(exam-1), abs(sign(exam-1)), 1-abs(sign(exam-1)),
+       score*(1-abs(sign(exam-1))) as exam1 from exams;
+
+select name, score, exam, exam-2, sign(exam-2), abs(sign(exam-2)), 1-abs(sign(exam-2)),
+       score*(1-abs(sign(exam-2))) as exam2 from exams;
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+select name,
+       sum(score*(1-abs(sign(exam-1)))) as exam1,
+       sum(score*(1-abs(sign(exam-2)))) as exam2,
+       sum(score*(1-abs(sign(exam-3)))) as exam3,
+       sum(score*(1-abs(sign(exam-4)))) as exam4,
+         sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1)))) as delta_1_2,
+         sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2)))) as delta_2_3,
+         sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3)))) as delta_3_4
+       from exams group by name;
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+name            exam1       exam2       exam3       exam4       delta_1_2   delta_2_3   delta_3_4
+--------------- ----------- ----------- ----------- ----------- ----------- ----------- -----------
+Bob             75          77          78          80          2           1           2
+Sue             90          97          98          99          7           1           1
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4,
+  sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1)))) as delta_1_2,
+  sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2)))) as delta_2_3,
+  sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3)))) as delta_3_4,
+
+  sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1))))  +
+  sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2))))  +
+  sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3))))  as TotalIncPoints
+  from exams group by name;
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+name            exam1       exam2       exam3       exam4       delta_1_2   delta_2_3   delta_3_4   TotalIncPoints
+--------------- ----------- ----------- ----------- ----------- ----------- ----------- ----------- --------------
+Bob             75          77          78          80          2           1           2           5
+Sue             90          97          98          99          7           1           1           9
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4,
+  sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1)))) as delta_1_2,
+  sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2)))) as delta_2_3,
+  sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3)))) as delta_3_4,
+  
+  sum(score*(1-abs(sign(exam- 2)))) -   sum(score*(1-abs(sign(exam- 1))))  +
+  sum(score*(1-abs(sign(exam- 3)))) -   sum(score*(1-abs(sign(exam- 2))))  +
+  sum(score*(1-abs(sign(exam- 4)))) -   sum(score*(1-abs(sign(exam- 3))))  as TotalIncPoints,
+
+(sum(score*(1-abs(sign(exam-1)))) +
+sum(score*(1-abs(sign(exam-2)))) +
+sum(score*(1-abs(sign(exam-3)))) +
+sum(score*(1-abs(sign(exam-4)))))/4 as AVG
+from exams group by name;
+-----------------------------------------------------------------------------------------------------------------------
+name            exam1       exam2       exam3       exam4       delta_1_2   delta_2_3   delta_3_4   TotalIncPoints AVG
+--------------- ----------- ----------- ----------- ----------- ----------- ----------- ----------- -------------- ----
+Bob             75          77          78          80          2           1           2           5              77
+Sue             90          97          98          99          7           1           1           9              96
+-----------------------------------------------------------------------------------------------------------------------
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4,
+
+(sum(score*(1-abs(sign(exam-1)))) +
+sum(score*(1-abs(sign(exam-2)))))/2  as AVG1_2,
+
+(sum(score*(1-abs(sign(exam-2)))) +
+sum(score*(1-abs(sign(exam-3)))))/2 as AVG2_3,
+
+(sum(score*(1-abs(sign(exam-3)))) +
+sum(score*(1-abs(sign(exam-4)))))/2 as AVG3_4,
+
+(sum(score*(1-abs(sign(exam-1)))) +
+sum(score*(1-abs(sign(exam-2)))) +
+sum(score*(1-abs(sign(exam-3)))) +
+sum(score*(1-abs(sign(exam-4)))))/4 as AVG
+
+from exams group by name;
+---------------------------------------------------------------------------------------------------------------
+name            exam1       exam2       exam3       exam4       AVG1_2      AVG2_3      AVG3_4      AVG
+--------------- ----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------
+Bob             75          77          78          80          76          77          79          77
+Sue             90          97          98          99          93          97          98          96
+---------------------------------------------------------------------------------------------------------------
+declare @notSet     int =0
+      , @CanView    int =1 
+      , @CanEdit    int =2 
+      , @CanSubmit  int =4 
+      , @CanApprove int =8
+      , @CanDelete  int =16; 
+
+declare @contributor int = @CanView | @CanEdit | @CanSubmit     --> Can't delete
+       , @moderator  int = @CanView | @CanEdit | @CanDelete     --> not allowed to sumbit
+       , @admin      int = @CanView | @CanEdit | @CanSubmit | @CanApprove | @CanDelete;--> can do all
+
+SELECT TEST='A admin can Submit'            , RESULT= iif(@admin     & @CanSubmit = @CanSubmit,'TRUE','FALSE')
+UNION ALL
+SELECT TEST='A Moderator may not Submit'    , RESULT= iif(@moderator & @CanSubmit = @CanSubmit,'FALSE','TRUE')
+UNION ALL
+SELECT TEST='A Contributer may not delete'  , RESULT= iif(@contributor & @CanDelete = @CanDelete,'FALSE','TRUE')
+UNION ALL
+SELECT TEST='A Moderator may delete'        , RESULT= iif(@moderator & @CanDelete = @CanDelete,'TRUE','FALSE')
+---------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------

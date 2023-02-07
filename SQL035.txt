@@ -1,0 +1,574 @@
+SQL035
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[Bits]')
+and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[Bits]
+GO
+ 
+CREATE TABLE [dbo].[Bits](
+    [idbin] [tinyint] IDENTITY(1,1) NOT NULL,
+	[bin_val] [binary](4) NOT NULL,
+	[val_pos] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idbin] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, 
+ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+--------------------------------------------
+--Valores binários do vetor 2^^31 posicional
+--------------------------------------------
+INSERT INTO Bits VALUES(0x00000001,0x00000001 * 1)
+INSERT INTO Bits VALUES(0x00000002,0x00000002 * 1)
+INSERT INTO Bits VALUES(0x00000004,0x00000004 * 1)
+INSERT INTO Bits VALUES(0x00000008,0x00000008 * 1) 
+INSERT INTO Bits VALUES(0x00000010,0x00000010 * 1)
+INSERT INTO Bits VALUES(0x00000020,0x00000020 * 1)
+INSERT INTO Bits VALUES(0x00000040,0x00000040 * 1)
+INSERT INTO Bits VALUES(0x00000080,0x00000080 * 1) 
+INSERT INTO Bits VALUES(0x00000100,0x00000100 * 1)
+INSERT INTO Bits VALUES(0x00000200,0x00000200 * 1)
+INSERT INTO Bits VALUES(0x00000400,0x00000400 * 1)
+INSERT INTO Bits VALUES(0x00000800,0x00000800 * 1) 
+INSERT INTO Bits VALUES(0x00001000,0x00001000 * 1)
+INSERT INTO Bits VALUES(0x00002000,0x00002000 * 1)
+INSERT INTO Bits VALUES(0x00004000,0x00004000 * 1)
+INSERT INTO Bits VALUES(0x00008000,0x00008000 * 1) 
+INSERT INTO Bits VALUES(0x00010000,0x00010000 * 1)
+INSERT INTO Bits VALUES(0x00020000,0x00020000 * 1)
+INSERT INTO Bits VALUES(0x00040000,0x00040000 * 1)
+INSERT INTO Bits VALUES(0x00080000,0x00080000 * 1) 
+INSERT INTO Bits VALUES(0x00100000,0x00100000 * 1)
+INSERT INTO Bits VALUES(0x00200000,0x00200000 * 1)
+INSERT INTO Bits VALUES(0x00400000,0x00400000 * 1)
+INSERT INTO Bits VALUES(0x00800000,0x00800000 * 1) 
+INSERT INTO Bits VALUES(0x01000000,0x01000000 * 1)
+INSERT INTO Bits VALUES(0x02000000,0x02000000 * 1)
+INSERT INTO Bits VALUES(0x04000000,0x04000000 * 1)
+INSERT INTO Bits VALUES(0x08000000,0x08000000 * 1) 
+INSERT INTO Bits VALUES(0x10000000,0x10000000 * 1)
+INSERT INTO Bits VALUES(0x20000000,0x20000000 * 1)
+INSERT INTO Bits VALUES(0x40000000,0x40000000 * 1)
+INSERT INTO Bits VALUES(0x80000000,0x80000000 * 1)
+----------------------------------
+SELECT *
+  FROM [dbo].[Bits]
+----------------------------------
+--Lista o valor posicional
+SET NOCOUNT ON
+--------------------------
+--------------------------
+print  (0x00000001) * 1
+print  (0x00000002) * 1
+print  (0x00000004) * 1
+print  (0x00000008) * 1
+------------------------
+print  (0x00000010) * 1
+print  (0x00000020) * 1
+print  (0x00000040) * 1
+print  (0x00000080) * 1
+------------------------
+print (0x10000000)* 1
+print (0x20000000)* 1
+print (0x40000000)* 1
+print (0x80000000)* 1
+-------------------------------------------------------
+------------------------------------------------------------
+--Decompondo valores posicionais base 10 em bits posicioanais
+------------------------------------------------------------
+declare @v int
+set @v = 2147483647
+select bin_val,
+@v & bin_val as dec_valor,idbin as [Nibble Pos] from bits
+where
+         @v & bin_val = bin_val
+--------------------------------------------------------
+declare @v int
+set @v =57
+select bin_val,
+@v & bin_val as dec_valor,idbin as [Nibble Pos] from bits
+where
+         @v & bin_val = bin_val
+--------------------------------------------------------
+declare @v int
+set @v =17
+select bin_val,
+@v & bin_val as dec_valor,idbin as [Nibble Pos] from bits
+where
+         @v & bin_val = bin_val
+--------------------------------
+---------------------------------------------------------
+
+--------------------------------------------------------
+-------------------------
+declare @v int
+set @v =17
+select bin_val,
+@v & bin_val as dec_valor,idbin as [Nibble Pos] from bits
+where
+         @v & bin_val = bin_val
+-----------------------------------------
+--binario em notação hexadecimal
+-----------------------------------------
+print 0x00000001 * 1
+print 0x00000010 * 1
+-------------------------------------------
+SELECT 0x00000001 & 0x00000001
+SELECT CAST(0x00000001 AS int) & 0x00000001
+-------------------------------------------
+------------------------------------------------------------------
+--O maior inteiro que pode ser convertido para binario são 8 bytes
+------------------------------------------------------------------
+2^^64 -- 18.446.744.073.709.551.616
+-----------------------------------
+idbin bin_val    val_pos
+----- ---------- -----------
+1     0x00000001 1
+2     0x00000002 2
+3     0x00000004 4
+4     0x00000008 8
+5     0x00000010 16
+6     0x00000020 32
+7     0x00000040 64
+8     0x00000080 128
+9     0x00000100 256
+10    0x00000200 512
+11    0x00000400 1024
+12    0x00000800 2048
+13    0x00001000 4096
+14    0x00002000 8192
+15    0x00004000 16384
+16    0x00008000 32768
+17    0x00010000 65536
+18    0x00020000 131072
+19    0x00040000 262144
+20    0x00080000 524288
+21    0x00100000 1048576
+22    0x00200000 2097152
+23    0x00400000 4194304
+24    0x00800000 8388608
+25    0x01000000 16777216
+26    0x02000000 33554432
+27    0x04000000 67108864
+28    0x08000000 134217728
+29    0x10000000 268435456
+30    0x20000000 536870912
+31    0x40000000 1073741824
+32    0x80000000 -2147483648
+-------------------------------
+-------------------------------
+---------------------------------------------
+--Retrieving Index Properties by
+--Using the Bitwise AND Operator
+---------------------------------------------
+--2 (bit 2) = Unique index
+--16 (bit 5) = Clustered index
+--2048 (bit 12) = Index used to enforce PRIMARY KEY constraint
+--4096 (bit 13) = Index used to enforce UNIQUE constraint
+-------------------------------------------------------------
+SELECT
+  OBJECT_NAME([id]) AS table_name,
+  [indid] AS index_id,
+  [name] AS index_name,
+  status,
+  CASE
+    WHEN status & 2 = 2 THEN 'Yes'
+    ELSE 'No'
+  END AS is_unique,
+  CASE
+    WHEN status & 16 = 16 THEN 'Yes'
+    ELSE 'No'
+  END AS is_clustered,
+  CASE
+    WHEN status & 2048 = 2048 THEN 'Yes'
+    ELSE 'No'
+  END AS is_PK_CNS,
+  CASE
+    WHEN status & 4096 = 4096 THEN 'Yes'
+    ELSE 'No'
+  END AS is_UNQ_CNS
+FROM sysindexes
+WHERE indid BETWEEN 1 AND 254 --clustered and nonclustered indexes
+and OBJECT_NAME([id]) = 'Bits'
+ORDER BY table_name, index_id
+------------------------------------
+-------------------------------------
+
+CREATE TABLE vals (
+	vals numeric(38,0) not null primary key
+)
+-----------------------------------------------
+--The biggest bitwise mask you could create with numbers is 127 possible values using decimal/numeric type 
+--with precision of 38 and scale of 0. Here is code to generate those possiblities.
+
+DECLARE @y AS NUMERIC(38,0)
+
+set @y = 1
+
+while @y < 99999999999999999999999999999999999999
+begin
+	insert vals (vals) values (@y)
+	set @y = @y * 2
+
+	if @@error != 0
+		goto exithere
+end
+
+exithere:
+
+SELECT COUNT(*) FROM vals
+--------------------------------------------------------
+select * from vals
+
+2^^126 = 85070591730234615865843651857942052864
+---------------------------------------------------------
+CREATE TABLE Member
+(
+      id            INT
+    , name          VARCHAR(20)
+    , contact_preferences    INT
+);
+
+INSERT INTO Member
+VALUES (1,'Bob', 255),(2,'John', 84),(3,'Cathy', 73),(4,'Steve', 170);
+
+CREATE TABLE opportunitiesLookup
+(
+      bitwise int
+    , value   varchar(30)
+);
+
+INSERT INTO opportunitiesLookup
+VALUES (1, 'Career opportunities')
+	,(2, 'Consulting offers')
+	,(4, 'New ventures')
+	,(8, 'Job inquiries')
+	,(16, 'Expertise requests')
+	,(32, 'Business deals')
+	,(64, 'Personal reference requests')
+	,(128, 'Requests to reconnect');
+------------------------------------------------
+Select m.name, o.value
+From Member m
+Cross Join opportunitiesLookup o
+Where m.contact_preferences & o.bitwise <> 0
+Order By m.name
+    , o.value
+
+------------------------------------------------
+with assoc as
+(
+	Select m.name, o.value
+	From Member m
+	Cross Join opportunitiesLookup o
+	Where m.contact_preferences & o.bitwise <> 0
+)
+select name from assoc where value = 'Consulting offers'
+---------------------------------------------------------
+SELECT n.name as 'Name', LTRIM(STUFF(
+       (SELECT  
+              ', ' + o.value AS [text()]
+              FROM 
+              Member m
+              CROSS JOIN opportunitiesLookup o
+              WHERE 
+              m.contact_preferences & o.bitwise <> 0
+              AND m.name = n.name
+              ORDER BY 
+              m.name
+              ,o.value
+       FOR XML PATH('')),1,1,'')) AS 'Preferences'
+FROM 
+       Member n
+ORDER BY 
+       n.name
+------------------------------------------------------
+SELECT name
+	,[Career opportunities]
+	,[Consulting offers]
+	,[New ventures]
+	,[Job inquiries]
+	,[Expertise requests]
+	,[Business deals]
+	,[Personal reference requests]
+	,[Requests to reconnect]
+FROM
+	(Select m.name, o.value, 1 as num
+	From Member m
+	Cross Join opportunitiesLookup o
+	Where m.contact_preferences & o.bitwise <> 0) AS D
+PIVOT(count(num) for value in ([Career opportunities]
+			,[Consulting offers]
+			,[New ventures]
+			,[Job inquiries]
+			,[Expertise requests]
+			,[Business deals]
+			,[Personal reference requests]
+			,[Requests to reconnect])) AS P;
+----------------------------------------------------------
+----------------------------------------------------------
+
+CREATE TABLE #Operations (
+   PK INT NOT NULL IDENTITY(1,1),
+   UserName VARCHAR(50) NOT NULL,
+   UserProcess VARCHAR(50) NOT NULL,
+   ServerOperation VARCHAR(50) NOT NULL,
+   Permission INT NOT NULL );
+INSERT INTO #Operations (UserName, UserProcess, ServerOperation, Permission)
+SELECT 'Tom', 'Ledger', 'Finance', 1 UNION ALL
+SELECT 'Tom', 'Ledger', 'Finance', 2 UNION ALL
+SELECT 'Tom', 'Ledger', 'Finance', 4 UNION ALL
+SELECT 'Bill', 'Dispatch','Export', 2 UNION ALL
+SELECT 'Bill', 'Dispatch','Export', 4 UNION ALL
+SELECT 'Mary', 'Audit', 'Finance', 1 UNION ALL
+SELECT 'Mary', 'Invoice','Export', 1 UNION ALL
+SELECT 'Mary', 'Invoice','Finance', 8 UNION ALL
+SELECT 'Tom', 'Audit', 'Finance', 15 UNION ALL
+SELECT 'Mary', 'Dispatch','Export', 3 
+SELECT * FROM #Operations;
+--------------------------------------------------------------------------------
+SELECT DISTINCT 
+	   UserName,
+       ServerOperation,
+	   SUM(Permission) AS Permission
+FROM #Operations
+GROUP BY UserName, ServerOperation
+--------------------------------------
+SELECT DISTINCT
+		Op2.UserName,
+       Op2.ServerOperation,
+     STUFF( (SELECT 0 | Op1.Permission
+	         FROM #Operations AS Op1
+			 WHERE Op1.PK = Op2.PK
+			 FOR XML PATH('')),1,1,'') AS Permission
+FROM #Operations AS Op2
+GROUP BY Op2.UserName, Op2.ServerOperation, Op2.PK
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+------------------------------------------------
+------------------------------------------
+------------------------------------
+---------------------------
+------------------
+---------------
+DECLARE @I1 int, @I2 int
+
+ SELECT @I1 = dbo.fn_GetIntFromBitString('0101')
+ SELECT @I2 = dbo.fn_GetIntFromBitString('1001')
+
+ --Show Each Bit one at a time of the first integer
+ PRINT Cast(dbo.fn_GetBit(@I1,4) as char(1))
+ +Cast(dbo.fn_GetBit(@I1,3) as char(1))
+ +Cast(dbo.fn_GetBit(@I1,2) as char(1))
+ +Cast(dbo.fn_GetBit(@I1,1) as char(1))
+
+ --Do some Bitwise operations
+ PRINT dbo.fn_GetBitString( @I1 & @I2 ,4) --Bitwise AND
+ PRINT dbo.fn_GetBitString( @I1 | @I2 ,4) --Bitwise OR
+ PRINT dbo.fn_GetBitString( @I1 ^ @I2 ,4) --Bitwise XOR
+
+
+-------------------------------------------------------------------
+-- Turn an Integer into a base two Binary String
+-- By: Robert Rinchuse Jr
+--
+-- PRINT dbo.fn_GetBitString(16,5)
+-------------------------------------------------------------------
+CREATE FUNCTION dbo.fn_GetBitString
+(
+	  @IntValue Int
+	, @BitSize tinyInt --1 to 32
+)
+RETURNS varchar(32)
+AS
+BEGIN
+	DECLARE @BitNum tinyint, @BitString varchar(32)
+
+	IF @BitSize>32 SET @BitSize=32
+
+	SELECT @BitNum=1, @BitString=''
+	
+	WHILE @BitNum<=@BitSize
+	Begin
+		SELECT @BitString=
+			Cast( (convert(bigint,(@IntValue/power(cast(2 as bigint),@BitNum-1))) % 2)  as char(1))
+			-- Cast( dbo.fn_GetBit(@IntValue ,@BitNum)  as char(1))
+			+@BitString
+		SELECT @BitNum=@BitNum+1
+	End 
+
+	RETURN @BitString
+
+END
+GO
+
+-------------------------------------------------------------------
+-- Get a specific Bit value from and Integer
+-- Useful if you are saving a Bit Mask as an integer
+-- By: Robert Rinchuse Jr
+--
+-- PRINT dbo.fn_GetBit(16,4)
+-------------------------------------------------------------------
+CREATE FUNCTION dbo.fn_GetBit
+(
+	  @IntValue Int
+	, @BitNum tinyInt --1 to 32
+)
+RETURNS bit
+AS
+BEGIN
+
+RETURN Cast( (convert(bigint,(@IntValue/power(cast(2 as bigint),@BitNum-1))) % 2)  as bit)
+
+END
+GO
+
+-------------------------------------------------------------------
+-- Turn a base two Binary String into an integer
+-- By: Robert Rinchuse Jr
+--
+-- PRINT dbo.fn_GetIntFromBitString('0101')
+-------------------------------------------------------------------
+-- PRINT dbo.fn_GetBitString(5,32)
+-- PRINT dbo.fn_GetIntFromBitString(dbo.fn_GetBitString(5,32))
+-- PRINT dbo.fn_GetBitString(dbo.fn_GetIntFromBitString('00000000000000000000000000000101'),32)
+-------------------------------------------------------------------
+CREATE FUNCTION dbo.fn_GetIntFromBitString
+(
+	  @BitString varchar(32)
+)
+RETURNS Int
+AS
+BEGIN
+
+	DECLARE @BitNum tinyint, @IntValue int, @BitSize tinyint
+	SELECT @BitNum=1, @IntValue=0, @BitSize=LEN(IsNull(@BitString,''))
+	
+	SELECT @BitString = REVERSE( @BitString )
+	
+	WHILE @BitNum<=@BitSize
+	Begin
+		SELECT @IntValue=@IntValue+
+			Cast(SUBSTRING(@BitString,@BitNum,1) as BigInt)*POWER(cast(2 as bigint),@BitNum-1)
+	
+		SELECT @BitNum=@BitNum+1
+	End 
+	
+	RETURN @IntValue
+
+END
+---------------------------------------------
+--------------------------------------------
+------------------------------------------------------
+swap two integers without using a 3rd memory location.
+------------------------------------------------------
+DECLARE @Arg1 Int, @Arg2 Int
+SET @Arg1 = 5
+SET @Arg2 = 7
+
+SELECT @Arg1 as arg1 ,@Arg2 as arg2
+
+SET @Arg1 = @Arg1 ^ @Arg2
+SELECT @Arg1
+
+SET @Arg2 = @Arg2 ^ @Arg1
+SELECT @Arg2
+
+SET @Arg1 = @Arg1 ^ @Arg2
+SELECT @Arg1 as arg1 ,@Arg2 as arg2
+----------------------------------------------
+---------------------------------------------
+------------------------------------------
+alter FUNCTION dbo.f_bitmap (@f_int INT)
+RETURNS CHAR (32)
+/*
+||======================================================================
+ declare @integer int = 325
+ IF RIGHT (dbo.f_bitmap (@integer), 7) LIKE '1%'
+    PRINT 'BIT 7 is set!'
+  ELSE
+    PRINT 'BIT 7 is not set'
+||======================================================================
+*/
+AS
+BEGIN
+  /*
+  ||====================================================================
+  || Facts:
+  ||   1.  If the integer is negative, BIT 32 (leftmost bit) is set.
+  ||   2.  For each remaining bit (n = 31 to 1), if bitwise ANDing the
+  ||       integer value with 2^(n - 1) is not zero, then the bit is
+  ||       set.
+  ||====================================================================
+  */
+  DECLARE @bit  CHAR (1)
+        , @bits VARCHAR (32)
+        , @pos  INT
+
+  SELECT @bits = ''
+       , @pos  = 32
+
+  WHILE @pos > 0
+  BEGIN
+    SELECT @bit  = CASE
+                     WHEN (@pos = 32
+                         AND @f_int                        < 0)
+                       OR (@pos < 32
+                         AND @f_int & POWER (2, @pos - 1) != 0)
+                     THEN '1'
+                     ELSE '0'
+                   END
+         , @bits = @bits + @bit
+         , @pos  = @pos  - 1
+  END
+
+  RETURN @bits
+END
+----------------------------------------------
+---------------------------------------------
+------------------------------------------
+create function [dbo].fn_generate_binary_frominteger(@integer bigint)
+returns bigint
+as
+begin
+ 
+	declare @binary varchar(max)=''
+ 
+	while @integer > 0 
+	begin 
+		set @binary = @binary + cast((@integer % 2) as varchar(max))
+		set @integer = @integer / 2 
+	end
+ 
+	return reverse(@binary)
+ 
+end
+go
+
+create function [dbo].fn_generate_integer_frombinary(@binary varchar(255))
+returns bigint
+as
+begin
+
+	if @binary like '%[2-9]%' or @binary < 0
+		return -1
+ 
+	declare @cnt int = 1
+	declare @length int = len(@binary)
+	declare @integer int = cast(substring(@binary, @length, 1) as int)
+ 
+	while(@cnt < @length) 
+	begin
+		set @integer = @integer + power(cast(substring(@binary, @length - @cnt, 1) * 2 as int), @cnt) 
+		set @cnt = @cnt + 1
+	end
+ 
+	return @integer	
+ 
+end 
+go
+
+select dbo.fn_generate_binary_frominteger(310)
+select dbo.fn_generate_integer_frombinary(100110110)

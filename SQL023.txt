@@ -1,0 +1,36 @@
+SQL023
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+Bitwise and
+        x: 10001101
+        y: 01010111
+   x & y:  00000101
+Bitwise or
+        x: 10001101
+        y: 01010111
+   x | y:  00000101
+Simple
+Delete User
+Admin
+BitAnd(63,4) = 4
+00111111 (63)
+00000100 (4)
+------------
+00000100 (4)
+Super User
+BitAnd(27,4) = 0
+00011011 (27)
+00000100 (4)
+00000000 (0)
+User
+BitAnd(2,4) = 0
+00000010 (2)
+00000100 (4)
+00000000 (0)
+Group Admin
+BitAnd(56,4) = 0
+00111000 (56)
+00000100 (4)
+------------
+00000000 (0)

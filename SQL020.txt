@@ -1,0 +1,28 @@
+
+SQL020
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+select nome,(1 - abs(sign(mes - 3))) as [mes_03_verdadeiro]
+from tbval
+select nome,sum(valor * (1 - abs(sign(mes - 3))))as [finalizando_mes_3] 
+ from tbval group by nome
+select nome,
+       sum(valor * (1 - abs(sign(mes - 1)))) as jan,
+       sum(valor * (1 - abs(sign(mes - 2)))) as fev, 
+       sum(valor * (1 - abs(sign(mes - 3)))) as mar, 
+       sum(valor * (1 - abs(sign(mes - 4)))) as abr,
+       sum(valor * (1 - abs(sign(mes - 5)))) as mai,
+       sum(valor * (1 - abs(sign(mes - 6)))) as jun,
+       sum(valor * (1 - abs(sign(mes - 7)))) as jul,
+       sum(valor * (1 - abs(sign(mes - 8)))) as ago,
+       sum(valor * (1 - abs(sign(mes - 9)))) as 'set',
+       sum(valor * (1 - abs(sign(mes - 10)))) as out,
+       sum(valor * (1 - abs(sign(mes - 11)))) as nov,
+       sum(valor * (1 - abs(sign(mes - 12)))) as dez
+from tbval group by nome
+
+nome jan	 fev    mar  abr   mai	jun    jul	ago  set	out nov   dez
+Deg   6001 6002 6003 6004 6005 6006 6007 6008 6009 6010 6011 6012
+Law   8001 8002 8003 8004 8005 8006 8007 8008 8009 8010 8011 8012

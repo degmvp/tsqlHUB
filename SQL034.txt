@@ -1,0 +1,24 @@
+SQL034
+
+select co_documento,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 11))))) as DATA_DE_NASCIMENTO,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 12))))) as SEXO_NUMERO, 
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 13))))) as ESTADO_CIVIL_NUMERO, 
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 14))))) as NUMERO_RG,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 15))))) as ORGAO_EXPEDIDOR,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 16))))) as UF_RG,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 17))))) as DATA_EXPEDICAO_RG,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 18))))) as CEP,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 19))))) as ENDERECO,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 20))))) as BAIRRO,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 21))))) as CIDADE,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 22))))) as UF_ENDERECO,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 23))))) as PROFISSAO_ATIVIDADE_PRINCIPAL_ENVOLVIDA,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 88))))) as NOME_TITULAR,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 91))))) as NUMERO_DO_TITULO,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 95))))) as TELEFONE_CELULAR,
+       max(SUBSTRING(TX_CONTEUDO,1,len(TX_CONTEUDO) * (1 - abs(sign(co_seq_metadata - 208)))))as NUMERO_CPF_CNPJ
+ from DB_CP_PROTOCOLO.Doc.RL_DOCUMENTO_METADATA rl 
+inner join Metadata.TA_TIPO_METADATA ta on rl.CO_METADATA = ta.CO_SEQ_METADATA
+group by co_documento
+having  CO_DOCUMENTO = 10506769

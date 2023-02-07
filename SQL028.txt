@@ -1,0 +1,59 @@
+SQL028
+
+IF PERMISSIONS(OBJECT_ID('bits'))&18=18 
+   PRINT' O usuario pode inserir e deletar bits.'
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode inserir e deletar bits.'
+
+IF PERMISSIONS(OBJECT_ID('bits'))&0x80000=0x80000
+   PRINT 'GRANT(INSERT) em  bits é permitido.'
+else
+ PRINT 'Usuario não pode conceder GRANT(INSERT) em seg_aplicacao.'
+
+IF PERMISSIONS(OBJECT_ID('bits'))&8=8 
+   PRINT' O usuario pode inserir dados em bits.'
+ELSE
+   PRINT 'ERROR: O usuario não pode inserir dados em bits.'
+   ---------------------------------------------------------------------
+   IF PERMISSIONS(OBJECT_ID('bits'))&21=21 
+   PRINT' O usuario pode select,update,inserir e deletar dados em bits.'
+ELSE
+   PRINT 'ERROR: O usuario não pode select,update,inserir e deletar em bits.'
+******************************************************************************
+IF PERMISSIONS()&1=1 begin
+        print 'O usuario pode criar banco.'
+   end
+ELSE   PRINT 'ERROR: O usuario corrente não pode criar banco.'
+   ---------------------------------------------------------
+      IF PERMISSIONS()&4=4 begin
+        print 'O usuario pode criar proc.'
+   end
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode criar proc.'
+   ----------------------------------------------------- 
+   IF PERMISSIONS()&2=2  begin
+        print 'O usuario pode criar tabela.'
+   end
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode criar uma tabela.'
+   ----------------------------------------------------------
+IF PERMISSIONS()&12=12  begin
+        print 'O usuario pode criar proc e view'
+   end
+ELSE  PRINT 'ERROR: O usuario corrente não pode criar proc e view'
+   --------------------------------------------------------------
+   IF PERMISSIONS()&64=64  begin
+        print 'O usuario pode criar backup.'
+   end
+ELSE PRINT 'ERROR: O usuario corrente não pode criar backup.'
+   ----------------------------------------------------------
+   IF PERMISSIONS()&66=66  begin
+        print 'O usuario pode criar tabela e fazer backup'
+   end
+ELSE  PRINT 'ERROR: O usuario corrente não pode criar uma tabela.' 
+   ----------------------------------------------------------
+IF PERMISSIONS()&12=12  begin
+        print 'O usuario pode criar proc e view'
+   end
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode criar proc e view'

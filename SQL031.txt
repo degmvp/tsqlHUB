@@ -1,0 +1,70 @@
+SQL031
+
+Atributos                    Valores 
+ 
+Carro padrão                  1    
+Motor 400 hp 4.0              2  
+Transmissão Automatica        4
+Som stereo                    8
+Banco de couro               16
+Freio Abs                    32
+Alarm system                 64
+Computador de bordo         128
+ar condicionado       536870913
+
+IF OBJECT_ID('tbcar')IS NOT NULL
+ DROP TABLE tbcar
+ 
+ CREATE TABLE tbcar
+   (CID int  NOT NULL PRIMARY KEY
+    ,Fnome varchar (10)
+    ,Lnome varchar (10)
+    ,Car varchar (20)
+    ,OptionsMask int)
+
+
+ INSERT INTO dbo.tbcar
+          (CId, FNome, Lnome, Car, OptionsMask) VALUES
+  
+          (1,'Deg','Barbosa', 'Camaro', 3)
+
+         ,(2,'Kecio', 'Barbosa','Monaro', 25)
+
+         ,(3,'wallace', 'Barbosa','GTO', 51)
+
+         ,(4,'Lawrence','Barbosa','Honda',75)
+
+         ,(5,'Douglas','Barbosa','Honda',43)
+         ,(6,'Gorete','Barbosa','GTO',5)
+		 ,(7,'Camila','Cardoso','GOL',536870913)
+
+-- 1- quem comprou carro ?
+SELECT * FROM dbo.tbcar WHERE OptionsMask & 1 = 1 
+
+-- 2- quem comprou carro ? com motor  4.0 ?
+SELECT * FROM dbo.tbcar WHERE OptionsMask & 3 = 3
+
+--3- Decompondo o optionmask kecio = 25
+declare @v int
+set @v = 25
+select bin_val,
+@v & bin_val as dec_valor,idbin as [Nibble Pos] from bits
+where
+         @v & bin_val = bin_val
+
+-- 4- quem comprou carro ? sem motor  4.0 ?
+SELECT * FROM dbo.tbcar WHERE OptionsMask & 3 <> 3
+
+-- 5- quem comprou carro ? com transmissão automatica ? 
+SELECT * FROM dbo.tbcar WHERE OptionsMask & 5 = 5
+-- 6- quem nao comprou carro ? com transmissão automatica ? 
+SELECT * FROM dbo.tbcar WHERE OptionsMask & 5 <> 5
+-- 7- quem comprou carro ? com ar condicionado? 
+SELECT * FROM dbo.tbcar WHERE OptionsMask & 536870913 = 536870913
+
+declare @v int
+set @v = 536870913
+select bin_val,
+@v & bin_val as dec_valor,idbin as [Nibble Pos] from bits
+where
+         @v & bin_val = bin_val

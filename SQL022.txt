@@ -1,0 +1,30 @@
+SQL022
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+User/Group Permissions
+Add     User 1
+Edit    User 2
+Delete  User 4 
+Add Group    8
+Edit Group  16
+Delete Group 32
+Roles
+Admin (Add/Edit/Delete Groups & Users) 63
+Super User (Add/Edit Groups & Users)   27
+Group Admin (Add/Edit/Delete Groups)   56
+
+declare @v int
+set @v = 63
+select hexa_pos,
+@v & hexa_pos as dec_pos,map,idbin as [Nibble Pos] from bit
+where @v & hexa_pos = hexa_pos
+
+hexa_pos	dec_pos	map	      Nibble Pos:
+0x00000001	1	Add     User	1
+0x00000002      2	Edit    User	2  
+0x00000004	4	Delete  User	3    
+0x00000008	8	Add Group	4
+0x00000010	16	Edit Group	5
+0x00000020	32	Delete Group	6

@@ -1,0 +1,31 @@
+SQL026
+
+     CREATE TABLE tableX (
+        bitPriced BIT,
+         bitCredit_checked BIT,
+        bitAllocated BIT,
+        bitShipped BIT
+     )
+     GO
+
+    INSERT tableX (bitPriced, bitCredit_checked, bitAllocated, bitShipped) VALUES (1,1,0,0)
+    INSERT tableX (bitPriced, bitCredit_checked, bitAllocated, bitShipped) VALUES (1,0,1,0)
+    INSERT tableX (bitPriced, bitCredit_checked, bitAllocated, bitShipped) VALUES (0,0,0,0)
+    INSERT tableX (bitPriced, bitCredit_checked, bitAllocated, bitShipped) VALUES (1,1,1,0)
+
+SELECT *
+    FROM tableX
+    WHERE bitAllocated ^ bitPriced = 1        --xor 0 ^ 1  = 1
+
+SELECT *
+    FROM tableX
+    WHERE bitAllocated ^ bitCredit_checked =1   --xor 0 ^ 1 = 1   --xor 1 ^ 0 
+
+
+SELECT *
+    FROM tableX
+    WHERE bitAllocated ^ bitAllocated = 1
+
+SELECT *
+    FROM tableX
+    WHERE bitAllocated ^ bitShipped = 0

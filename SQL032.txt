@@ -1,0 +1,215 @@
+SQL032
+
+IF PERMISSIONS()&1=1 
+	 begin
+        print 'O usuario pode criar banco.'
+   end
+ELSE   PRINT 'ERROR: O usuario corrente não pode criar banco.'
+   ---------------------------------------------------------
+      IF PERMISSIONS()&4=4
+   begin
+        print 'O usuario pode criar proc.'
+   end
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode criar proc.'
+   ----------------------------------------------------- 
+   IF PERMISSIONS()&2=2
+   begin
+        print 'O usuario pode criar tabela.'
+   end
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode criar uma tabela.'
+   ----------------------------------------------------------
+IF PERMISSIONS()&12=12
+   begin
+        print 'O usuario pode criar proc e view'
+   end
+ELSE  PRINT 'ERROR: O usuario corrente não pode criar proc e view'
+   --------------------------------------------------------------
+   IF PERMISSIONS()&64=64
+   begin
+        print 'O usuario pode criar backup.'
+   end
+ELSE PRINT 'ERROR: O usuario corrente não pode criar backup.'
+   ----------------------------------------------------------
+   IF PERMISSIONS()&66=66
+   begin
+        print 'O usuario pode criar tabela e fazer backup'
+   end
+ELSE  PRINT 'ERROR: O usuario corrente não pode criar uma tabela.' 
+   ----------------------------------------------------------
+IF PERMISSIONS()&12=12
+   begin
+        print 'O usuario pode criar proc e view'
+   end
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode criar proc e view'
+-------------------------------------------------------------------
+*******************************************************************
+*******************************************************************
+IF PERMISSIONS(OBJECT_ID('seg_aplicacao'))&18=18 
+   PRINT' O usuario pode inserir e deletar seg_aplicacao.'
+ELSE
+   PRINT 'ERROR: O usuario corrente não pode inserir e deletar seg_aplicacao.'
+
+IF PERMISSIONS(OBJECT_ID('seg_aplicacao'))&0x80000=0x80000
+   PRINT 'GRANT(INSERT) em  seg_aplicacao é permitido.'
+ELSE  PRINT 'Usuario não pode conceder GRANT(INSERT) em seg_aplicacao.'
+-----------------------------------------------------------------------
+IF PERMISSIONS(OBJECT_ID('seg_aplicacao'))&8=8 
+   PRINT' O usuario pode inserir dados em seg_aplicacao.'
+ELSE
+   PRINT 'ERROR: O usuario não pode inserir dados em seg_aplicacao.'
+   ---------------------------------------------------------------------
+   IF PERMISSIONS(OBJECT_ID('seg_aplicacao'))&21=21 
+   PRINT' O usuario pode select,update,inserir e deletar dados em seg_aplicacao.'
+ELSE
+   PRINT 'ERROR: O usuario não pode select,update,inserir e deletar em seg_aplicacao.'
+-------------------------------------------------------------------
+*******************************************************************
+*******************************************************************
+## Carro padrão (mask entre parentesis)
+ SELECT 1 | 1 -- (1)
+ ## Adicionando um grande motor 4.0!
+ SELECT 1 | 2  -- (3)
+ ## Som stereo
+ SELECT 1 | 2 | 8 -- (11)
+ ## Freio abs
+ SELECT 1 | 2 | 8 | 32  -- (43)
+ ##  Adicionar o alarm
+ SELECT 11 | 64 -- (75 mask final que representa as opções do pedido)
+ ## Computador de bordo
+ select 75 | 2147483573 (2147483647) -- valor limit
+ ----------------------------------------------------
+Atributos                    Valores 
+ 
+Carro padrão                  1    
+Motor 400 hp 4.0              2  
+Transmissão Automatica        4
+Som stereo                    8
+Banco de couro               16
+Freio Abs                    32
+Alarm system                 64
+Computador de bordo      2147483573
+---------------------------------------------------------
+   IF OBJECT_ID('COrders')IS NOT NULL
+ DROP TABLE COrders
+ 
+ CREATE TABLE COrders
+   (CID int  NOT NULL PRIMARY KEY
+    ,CFirst varchar (10)
+    ,CLast varchar (10)
+    ,Car varchar (20)
+    ,OptionsMask int)
+
+		 INSERT INTO dbo.COrders
+          (CId, CFirst, CLast, Car, OptionsMask) VALUES
+  
+          (1,'Deg','Barbosa', 'Camaro', 3)
+
+         ,(2,'Kecio', 'Barbosa','Monaro', 25)
+
+         ,(3,'wallace', 'Barbosa','GTO', 51)
+
+         ,(4,'Lawrence','Barbosa','Honda',75)
+
+         ,(5,'Douglas','Barbosa','Honda',43)
+         ,(6,'Gorete','Barbosa','GTO',2147483647)
+		 ------------------------------------
+		 ## 1- quem comprou carro ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 1 = 1 
+## 1- quem comprou carro ? com motor  4.0 ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 3 = 3
+## 1- quem comprou carro ? sem motor  4.0 ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 3 <> 3
+
+## 2- quem comprou carro ? com transmissão automatica ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 4 = 4
+## 2- quem comprou carro ? sem transmissão automatica ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 4 <> 4
+
+## 3- quem comprou carro ? com som stereo ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 8 = 8
+## 3- quem comprou carro ? sem som stereo ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 8 <> 8
+-------------------------------------------------------------
+##  4- quem comprou carro ? com Banco de couro ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 16 = 16
+## 4- quem comprou carro ? sem Banco de couro ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 16 <> 16
+## 5- quem comprou carro ? com freio abs ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 32 = 32
+## 5- quem comprou carro ? sem freio abs ? 
+SELECT * FROM dbo.COrders WHERE OptionsMask & 32 <> 32
+## 6- quem comprou carro ? com Alarm system ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 64 = 64
+## 6- quem comprou carro ? sem Alarm system ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 64 <> 64
+## 7- quem comprou carro ? com Computador de bordo ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 2147483573 = 2147483573
+## 7- quem comprou carro ? sem Computador de bordo ?
+SELECT * FROM dbo.COrders WHERE OptionsMask & 2147483573 <> 2147483573
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+--Quem comprou carro e motor 4.0?
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask & 1 = 1 and
+      OptionsMask & 3 = 3 
+
+--Quem comprou carro e motor 4.0
+--e transmissão automática ?
+    
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask & 1 = 1 and
+      OptionsMask & 3 = 3 and         
+      OptionsMask & 4 = 4
+
+--Quem comprou carro e motor 4.0
+--e transmissão automática 
+--e som stereo ?
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask & 1 = 1 and
+      OptionsMask & 3 = 3 and         
+      OptionsMask & 4 = 4 and
+      OptionsMask & 8 = 8    
+
+--Quem comprou carro e motor 4.0
+--e transmissão automática 
+--e som stereo e computador de bordo?
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask & 1 = 1 and
+      OptionsMask & 3 = 3 and         
+      OptionsMask & 4 = 4 and
+      OptionsMask & 8 = 8 and
+      OptionsMask & 2147483573 = 2147483573 
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 1 | 1 
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 1 | 2 
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 1 | 4
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 1 | 2 | 8 
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 1 | 2 | 8 | 32 
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 11| 64 
+
+SELECT * FROM dbo.COrders 
+,WHERE OptionsMask = OptionsMask  | 1 | 8 |16  
+
+SELECT * FROM dbo.COrders 
+WHERE OptionsMask = OptionsMask  | 75|2147483573
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+

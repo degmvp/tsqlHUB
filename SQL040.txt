@@ -1,0 +1,57 @@
+SQL040
+
+DECLARE @Ind INT 
+
+DECLARE @b1 bit,  
+        @b2 bit, 
+        @b3 bit,  
+        @b4 bit,  
+        @b5 bit, 
+        @b6 bit,  
+        @b7 bit, 
+        @b8 bit,  
+        @b9 bit, 
+        @b10 bit,  
+        @b11 bit
+
+SET @b1 = 1 
+SET @b2 = 1  
+SET @b3 = 1    
+SET @b4 = 1   
+SET @b5 = 1         
+SET @b6 = 1  
+SET @b7 = 1   
+SET @b8 = 1   
+SET @b9 = 1         
+SET @b10 = 1 
+SET @b11 = 1  
+
+SET @Ind =               POWER(2*@b1,1)  
+                       + POWER(2*@b2,2) 
+                       + POWER(2*@b3,3) 
+                       + POWER(2*@b4,4)  
+                       + POWER(2*@b5,5)  
+                       + POWER(2*@b6,6)  
+                       + POWER(2*@b7,7) 
+	                   + POWER(2*@b8,8)  
+                       + POWER(2*@b9,9)  
+                       + POWER(2*@b10,10)  
+                       + POWER(2*@b11,11) 
+
+
+set nocount on
+print 'bits ativados'
+print @Ind  
+
+IF ( ( 2 & @Ind)  =   2 ) print 'Permissão -> (select) valor posicional do bit         ->    2' 
+IF ( ( 4 & @Ind)  =   4 ) print 'Permissão -> (update) valor posicional do bit         ->    4' 
+IF ( ( 8 & @Ind)  =   8 ) print 'Permissão -> (delete) valor posicional do bit         ->    8' 
+IF ( (16 & @Ind)  =  16 ) print 'Permissão -> (insert) valor posicional do bit         ->   16' 
+IF ( (32 & @Ind)  =  32 ) print 'Permissão -> (create table) valor posicional do bit   ->   32' 
+IF ( (64 & @Ind)  =  64 ) print 'Permissão -> (drop   table) valor posicional do bit   ->   64' 
+IF ( (128 & @Ind) = 128 ) print 'Permissão -> (alter  table) valor posicional do bit   ->  128'
+IF ( (256 & @Ind)  = 256 ) print 'Permissão -> (db_datawriter) valor posicional do bit ->   256' 
+IF ( (512 & @Ind)  = 512 ) print 'Permissão -> (db_owner     ) valor posicional do bit ->   512' 
+IF ( (1024 & @Ind) =1024 ) print 'Permissão -> (sysadmin Role) valor posicional do bit ->  1024' 
+IF ( (2048 & @Ind) =2048 ) print 'Permissão -> (dbcreator    ) valor posicional do bit ->  2048'
+-----------------------------------------------------------------------------------------------

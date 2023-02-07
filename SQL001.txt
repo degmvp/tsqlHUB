@@ -1,0 +1,36 @@
+SQL001
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BOOLEAN EXPRESSION
+
+CREATE TABLE exams ( pkey int identity(1,1) NOT NULL ,
+        name varchar(15),
+        exam int,
+        score int, PRIMARY KEY  (pkey) );
+      insert into exams (name,exam,score) values ('Deg',1,75);
+      insert into exams (name,exam,score) values ('Deg',2,77);
+      insert into exams (name,exam,score) values ('Deg',3,78);
+      insert into exams (name,exam,score) values ('Deg',4,80);
+      insert into exams (name,exam,score) values ('mary',1,90);
+      insert into exams (name,exam,score) values ('mary',2,97);
+      insert into exams (name,exam,score) values ('mary',3,98);
+      insert into exams (name,exam,score) values ('mary',4,99);
+select * from exams;
+pkey	name	exam	score
+1	Deg	1	75
+2	Deg	2	77
+3	Deg	3	78
+4	Deg	4	80
+5	mary	1	90
+6	mary	2	97
+7	mary	3	98
+8	mary	4	99
+select name,
+sum(score*(1-abs(sign(exam-1)))) as exam1,
+sum(score*(1-abs(sign(exam-2)))) as exam2,
+sum(score*(1-abs(sign(exam-3)))) as exam3,
+sum(score*(1-abs(sign(exam-4)))) as exam4
+from exams group by name;
+name	exam1	exam2	exam3	exam4
+Deg	75	77	78	80
+mary	90	97	98	99

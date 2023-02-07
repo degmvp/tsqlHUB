@@ -1,0 +1,45 @@
+SQL027
+------------------------------------------------------
+swap two integers without using a 3rd memory location.
+------------------------------------------------------
+DECLARE @Arg1 Int, @Arg2 Int
+SET @Arg1 = 5
+SET @Arg2 = 7
+
+SELECT @Arg1 as arg1 ,@Arg2 as arg2
+
+SET @Arg1 = @Arg1 ^ @Arg2
+SELECT @Arg1 as xor_arg1_arg2_resultado_arg1
+
+SET @Arg2 = @Arg2 ^ @Arg1
+SELECT @Arg2  as xor_arg2_arg1_resultado_arg2
+
+SET @Arg1 = @Arg1 ^ @Arg2
+SELECT @Arg1 as arg1 ,@Arg2 as arg2
+
+-------------------------------------------------------
+SELECT
+  OBJECT_NAME([id]) AS table_name,
+  [indid] AS index_id,
+  [name] AS index_name,
+  status,
+  CASE
+    WHEN status & 2 = 2 THEN 'Yes'
+    ELSE 'No'
+  END AS is_unique,
+  CASE
+    WHEN status & 16 = 16 THEN 'Yes'
+    ELSE 'No'
+  END AS is_clustered,
+  CASE
+    WHEN status & 2048 = 2048 THEN 'Yes'
+    ELSE 'No'
+  END AS is_PK_CNS,
+  CASE
+    WHEN status & 4096 = 4096 THEN 'Yes'
+    ELSE 'No'
+  END AS is_UNQ_CNS
+FROM sysindexes
+WHERE indid BETWEEN 1 AND 254 --clustered and nonclustered indexes
+and OBJECT_NAME([id]) = 'Bits'
+ORDER BY table_name, index_id

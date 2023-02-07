@@ -1,0 +1,32 @@
+SQL009
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+DECOMPONDO VALORES INTEIROS BASE 10 EM  BINARIO/HEXA 
+
+declare @v int
+set @v = 57
+select hexa_pos,
+@v & hexa_pos as dec_pos,idbin as [Nibble Pos] from bits
+where
+         @v & hexa_pos = hexa_pos
+*********************************************
+hexa_pos	dec_pos	Nibble Pos
+0x00000001	1	1
+0x00000008	8	4
+0x00000010	16	5
+0x00000020	32	6
+*********************************************
+declare @v int
+set @v = 195
+select hexa_pos,
+@v & hexa_pos as dec_pos,idbin as [Nibble Pos] from bits
+where
+         @v & hexa_pos = hexa_pos
+*********************************************
+hexa_pos	dec_pos	Nibble Pos
+0x00000001	1	1
+0x00000002	2	2
+0x00000040	64	7
+0x00000080	128	8

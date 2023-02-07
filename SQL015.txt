@@ -1,0 +1,23 @@
+
+SQL015
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+PERMUTAR O VALOR DE DUAS VARIAVEIS SEM USAR UMA TERCEIRA
+BITWISE XOR
+
+DECLARE @x Int, @y Int
+SET @x = 3
+SET @y = 7
+
+SELECT @x as x ,@y as y   >>>>>> x3 y7
+
+SET @x = @x ^ @y              >>>>>> xor x3 y7 = x4
+SELECT @x --x4
+
+SET @y = @y ^ @x             >>>>>> xor y7 x4 = y3
+SELECT @y --3 
+
+SET @x = @x ^ @y             >>>>>>xor x4 y3 = x7
+SELECT @x as x ,@y as y  >>>>>> x7 y3

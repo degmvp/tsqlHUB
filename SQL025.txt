@@ -1,0 +1,95 @@
+SQL025
+
+1.9.1 Bitwise E (AND) (&), Bitwise OU (OR) (|), Bitwise OU EXCLUSIVO (XOR) (ˆ)
+Os operadores bit a bit, como o nome sugere, baseiam-se seus cálculos a nível de bit das
+variáveis. Esses operadores resolvem uma larga quantidade de problemas.
+Abaixo seguem descrições e sintaxe de todos os operadores. Para mais detalhes, verique a
+bibliograa[3].
+Bitwise AND (&)
+O operador bitwise AND é equivalente ao operador lógico AND.
+O operador bitwise AND representado por & é usado entre duas expressões inteiras. Bitwise
+AND opera em cada bit de cada expressão independentemente, seguindo a seguinte regra: se
+ambos são 1, o resultado é 1, qualquer outro caso, a resposta é 0. A tabela-verdade da porta
+lógica AND pode ser conferida na Tabela 1.6, abaixo:
+Tabela 1.6: Tabela-verdade porta AND.
+A B Resultado
+0 0 0
+1 0 0
+0 1 0
+1 1 1
+
+Outra forma de expressar isso:
+0 0 1 1 operando 1
+0 1 0 1 operando 2
+----------
+0 0 0 1 (operando 1 & operando 2) - resultado retornado
+No Arduino, o tipo inteiro (int) é um valor de 16 bits, então ao usar o & entre duas expressões
+causa 16 operações simultâneas. Um exemplo de código:
+int a = 92;   // em binário: 0000000001011100
+int b = 101; // em binário: 0000000001100101
+int c = a & b;   resultado: 0000000001000100, ou 68 em decimal.
+Cada um dos 16 bits em a e b são processados usando o bitwise AND, e todos os 16 bits
+resultantes são guardados em c, resultando no valor de 01000100 em binário, equivalente a 68
+em decimal.
+
+Bitwise OR (|)
+O operador bitwise OR é equivalente ao operador lógico OR.
+O operador bitwise OR representado por | é usado entre duas expressões inteiras. Bitwise OR
+opera em cada bit de cada expressão independentemente, seguindo a seguinte regra: se ambos
+são 0, o resultado é 0, qualquer outro caso, a resposta é 1. A tabela-verdade da porta lógica
+OR pode ser conferida na Tabela 1.7, abaixo:
+Tabela 1.7: Tabela-verdade porta OR.
+A B Resultado
+0 0 0
+1 0 1
+0 1 1
+
+Outra forma de representar:
+0 0 1 1 operando 1
+0 1 0 1 operando 2
+----------
+0 1 1 1 (operando 1 | operando 2) - resultado retornado
+Um exemplo de código:
+int a = 92;   // binário: 0000000001011100
+int b = 101; // binário: 0000000001100101
+int c = a | b; // binário: 0000000001111101, ou 125 em decimal.
+
+Bitwise XOR (ˆ)
+Há também um operador não tão usado em C, chamado de ou-exclusivo, também conhecido
+como XOR. O operador bitwise XOR representado por ˆ é usado entre duas expressões inteiras.
+Bitwise XOR opera em cada bit de cada expressão independentemente. Sua regra é muito
+parecida com operador OR, trocando apenas o caso em que temos 1 e 1, onde o resultado é 0.
+A tabela-verdade da porta lógica OXR pode ser conferida na Tabela 1.8, abaixo:
+Tabela 1.8: Tabela-verdade porta XOR.
+A B Resultado
+0 0 0
+1 0 1
+0 1 1
+1 1 0
+Outra forma de representar:
+0 0 1 1 operando 1
+0 1 0 1 operando 2
+----------
+0 1 1 0 (operando 1 ^ operando 2) - resultado retornado
+Exemplo de código:
+int x = 12; // binário: 1100
+int y = 10; // binário: 1010
+int z = x ^ y; // binário: 0110, ou decimal 6
+
+1.9.2 Bitwise NOT(∼)
+O operador bitwise NOT, é representado por ∼. Diferentemente de & e |,
+sim é aplicado a apenas um operando. NOT troca cada bit por seu oposto: 0 torna-se 1 e 1
+torna-se 0. A tabela-verdade da porta lógica OXR pode ser conferida na Tabela 1.9, abaixo:
+Tabela 1.9: Tabela-verdade porta NOT.
+A Resultado
+0 1
+1 0
+Outra forma de representar:
+0 1 operando 1
+------
+1 0 NOT operando 1
+int a = 103; // binário: 0000000001100111
+int b = NOT a; // binário: 1111111110011000 = -104
+Não está incorreto o resultado ser −104. Isto é porque o bit mais elevado em uma variável
+inteira é o chamado bit de sinal. Se o bit mais alto é 1, o número é interpretado como negativo.
+Esta codicação de números positivos e negativos é chamado de complemento de dois.

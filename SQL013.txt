@@ -1,0 +1,28 @@
+SQL013
+T-SQL FOR SMARTIES 
+DEEP DIVE  FROM BIT TO TOP
+BITWISE OPERATIONS
+
+SELECT n.name as 'Name', LTRIM(STUFF(
+       (SELECT  
+              ', ' + o.value AS [text()]
+              FROM 
+              Member m
+              CROSS JOIN opportunitiesLookup o
+              WHERE 
+              m.contact_preferences & o.bitwise <> 0
+              AND m.name = n.name
+              ORDER BY 
+              m.name
+              ,o.value
+       FOR XML PATH('')),1,1,'')) AS 'Preferences'
+FROM 
+       Member n
+ORDER BY  n.name
+
+Name	Preferences
+Bob	Administrador DBA, Alter Procedure, Create Table, Create Views, Delete Procedures,
+                   Insert tables, Query tables, Update Table
+Cathy	Administrador DBA, Alter Procedure, Delete Procedures
+John	Alter Procedure, Insert tables, Update Table
+Steve	Create Table, Create Views, Delete Procedures, Query tables
