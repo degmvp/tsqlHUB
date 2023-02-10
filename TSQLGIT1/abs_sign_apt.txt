@@ -1,0 +1,30 @@
+function abs() and sign() to create solution on select command in sql
+
+
+
+Here is an example of how the ABS() and SIGN() functions can be used in a 
+SELECT statement in T-SQL:
+
+
+
+SELECT ABS(Column1) AS AbsValue,
+       SIGN(Column1) AS SignValue
+FROM Table1
+
+This query will select the absolute value of Column1 as "AbsValue" and the
+sign of Column1 as "SignValue" from Table1.
+
+Alternatively, you can use these functions in a more complex query:
+
+SELECT Column1, Column2, 
+       ABS(Column1 - Column2) AS AbsDiff,
+       SIGN(Column1 - Column2) AS SignDiff
+FROM Table1
+WHERE Column3 > 5
+
+This query will select Column1, Column2, the absolute difference between Column1
+ and Column2 as "AbsDiff", and the sign of the difference between Column1 and 
+ Column2 as "SignDiff" from Table1 where Column3 is greater than 5.
+
+You can also use these functions in a subquery, in a join statement and in a 
+where clause, depending on your needs.
